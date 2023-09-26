@@ -1,28 +1,27 @@
-import './App.css'
-import { CreateTodoButton } from './Components/CreateTodoButton'
-import { TodoCounter } from './Components/TodoCounter'
-import { TodoItem } from './Components/TodoItem'
-import { TodoList } from './Components/TodoList'
-import { TodoSearch } from './Components/TodoSearch'
+import { CreateTodoButton } from '../Components/CreateTodoButton/CreateTodoButton'
+import { TodoCounter } from '../Components/TodoCounter/TodoCounter'
+import { TodoItem } from '../Components/TodoItem/TodoItem'
+import { TodoList } from '../Components/TodoList/TodoList'
+import { TodoSearch } from '../Components/TodoSearch/TodoSearch'
 
-
-const defaultTodos = [
-  {text: 'Cortar cebolla', completed: true},
-  {text: 'Sacar la basura', completed: false},
-  {text: 'Lavar los platos', completed: true},
-  {text: 'Tomar awita', completed: false},
-  {text: 'Tomar awita', completed: false},
-  {text: 'Tomar awita', completed: false},
-  {text: 'Tomar awita', completed: false},
-]
-
-function App() {
+function AppUI ({
+  completedTodos,
+  totalTodos,
+  searchValue,
+  searchedTodos,
+  setSearchValue,
+  toCompleteTodo,
+  deleteTodo
+}) {
   return (
     <>
     <div className='grid-container'>
 
       <header className='header'>
-        <TodoCounter total={2} completed={1} />
+        <TodoCounter
+        total={totalTodos}
+        completed={completedTodos}
+        />
       </header>
 
       <section className='sidebar'>
@@ -44,17 +43,22 @@ function App() {
         <div className='main-container'> 
 
           <div className='input-search-container'>
-            <TodoSearch />
+            <TodoSearch
+              searchValue={searchValue}
+              setSearchValue={setSearchValue}
+            />
           </div>
           <div className='create-btn-container'>
               <CreateTodoButton />
           </div>
           <div className='card-container'>
             <TodoList>
-              {defaultTodos.map(todo => (
+              {searchedTodos.map(todo => (
                 <TodoItem
                   key={todo.text}
                   text={todo.text}
+                  onComplete={() => toCompleteTodo(todo.text)}
+                  onDelete={() => deleteTodo(todo.text)}
                   completed={todo.completed}/>
               ))}
             </TodoList>
@@ -66,4 +70,4 @@ function App() {
   )
 }
 
-export default App
+export { AppUI }

@@ -150,6 +150,7 @@
     border: none;
     color: #fff;
     font-size: 18px;
+    z-index: 999;
   }
   .create-btn:active {
     background-color: #0c7fdd;

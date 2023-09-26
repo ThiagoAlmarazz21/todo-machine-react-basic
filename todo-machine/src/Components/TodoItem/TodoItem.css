@@ -33,6 +33,7 @@
 }
 .completed {
   color: #444;
+  opacity: 0.6;
   text-decoration: line-through;
 }
 
