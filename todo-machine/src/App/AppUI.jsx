@@ -3,69 +3,86 @@ import { TodoCounter } from '../Components/TodoCounter/TodoCounter'
 import { TodoItem } from '../Components/TodoItem/TodoItem'
 import { TodoList } from '../Components/TodoList/TodoList'
 import { TodoSearch } from '../Components/TodoSearch/TodoSearch'
+import { TodosError } from '../Components/TodosError/TodosError'
+import { TodosLoading } from '../Components/TodosLoading/TodosLoading'
+import { TodoSearchLoading } from '../Components/TodosLoading/TodoSearchLoading'
+import { TodoContext } from '../Context/TodoContext'
+import { useContext } from 'react'
 
-function AppUI ({
-  completedTodos,
-  totalTodos,
-  searchValue,
-  searchedTodos,
-  setSearchValue,
-  toCompleteTodo,
-  deleteTodo
-}) {
+function AppUI () {
+
+  const {
+    loading,
+    error,
+    searchedTodos,
+    toCompleteTodo,
+    deleteTodo
+  } = useContext(TodoContext)
+
   return (
     <>
-    <div className='grid-container'>
+      <div className='grid-container'>
 
-      <header className='header'>
-        <TodoCounter
-        total={totalTodos}
-        completed={completedTodos}
-        />
-      </header>
+        <header className='header'>
+          {loading
+            ?
+            <h2>Cargando TODOs...</h2>
+            :
+            <TodoCounter />}
 
-      <section className='sidebar'>
-        <div className='title'>
-          <h1>Task App</h1>
+        </header>
 
-        </div>
-        <div className='menu'>
-          <ul>
-            <li className='inicio'><a href="/"><i className='bx bx-home-alt-2'></i> Inicio</a></li>
-            <li><a href="/"><i className='bx bx-user'></i> Perfil</a></li>
-            <li><a href="/"><i className='bx bx-log-out-circle' ></i> LogOut</a></li>
-          </ul>
-        </div>
-      </section>
-
-      <main className='main'>
-
-        <div className='main-container'> 
-
-          <div className='input-search-container'>
-            <TodoSearch
-              searchValue={searchValue}
-              setSearchValue={setSearchValue}
-            />
+        <section className='sidebar'>
+          <div className='title'>
+            <h1>Task App</h1>
           </div>
-          <div className='create-btn-container'>
-              <CreateTodoButton />
+          <div className='menu'>
+            <ul>
+              <li className='inicio'><a href="/"><i className='bx bx-home-alt-2'></i> Inicio</a></li>
+              <li><a href="/"><i className='bx bx-user'></i> Perfil</a></li>
+              <li><a href="/"><i className='bx bx-log-out-circle' ></i> LogOut</a></li>
+            </ul>
           </div>
-          <div className='card-container'>
-            <TodoList>
-              {searchedTodos.map(todo => (
-                <TodoItem
-                  key={todo.text}
-                  text={todo.text}
-                  onComplete={() => toCompleteTodo(todo.text)}
-                  onDelete={() => deleteTodo(todo.text)}
-                  completed={todo.completed}/>
-              ))}
-            </TodoList>
+        </section>
+
+        <main className='main'>
+
+          <div className='main-container'> 
+
+            <div className='input-search-container'>
+              {loading ? <TodoSearchLoading /> : <TodoSearch />}
+            </div>
+
+            <div className='create-btn-container'>
+                {(!loading && searchedTodos == 0) && <h2>¡Crea tu primer tarea!</h2>}
+                {loading ? '' : <CreateTodoButton />}
+            </div>
+
+            <div className='card-container'>
+
+              {error && <TodosError />}
+              {loading && <TodosLoading />}
+
+              <TodoList>
+
+                {searchedTodos.map(todo => (
+                  <TodoItem
+                    key={todo.text}
+                    text={todo.text}
+                    onComplete={() => toCompleteTodo(todo.text)}
+                    onDelete={() => deleteTodo(todo.text)}
+                    completed={todo.completed}/>
+                ))}
+
+              </TodoList>
+
+            </div>
+
           </div>
-        </div>
-      </main>
-    </div>
+
+        </main>
+
+      </div>
     </>
   )
 }
