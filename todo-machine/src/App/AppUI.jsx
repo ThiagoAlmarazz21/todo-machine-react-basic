@@ -1,3 +1,4 @@
+import { useContext } from 'react'
 import { CreateTodoButton } from '../Components/CreateTodoButton/CreateTodoButton'
 import { TodoCounter } from '../Components/TodoCounter/TodoCounter'
 import { TodoItem } from '../Components/TodoItem/TodoItem'
@@ -6,8 +7,8 @@ import { TodoSearch } from '../Components/TodoSearch/TodoSearch'
 import { TodosError } from '../Components/TodosError/TodosError'
 import { TodosLoading } from '../Components/TodosLoading/TodosLoading'
 import { TodoSearchLoading } from '../Components/TodosLoading/TodoSearchLoading'
+import { Modal } from '../Components/Modal/Modal'
 import { TodoContext } from '../Context/TodoContext'
-import { useContext } from 'react'
 
 function AppUI () {
 
@@ -16,7 +17,9 @@ function AppUI () {
     error,
     searchedTodos,
     toCompleteTodo,
-    deleteTodo
+    deleteTodo,
+    openModal,
+    setOpenModal
   } = useContext(TodoContext)
 
   return (
@@ -83,6 +86,11 @@ function AppUI () {
         </main>
 
       </div>
+      
+      {openModal && (
+        <Modal>Funcionalidad de crear TODOs</Modal>
+      )}                                              
+
     </>
   )
 }
