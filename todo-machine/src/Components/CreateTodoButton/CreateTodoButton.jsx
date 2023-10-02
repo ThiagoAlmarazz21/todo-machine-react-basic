@@ -1,9 +1,4 @@
-import { useContext } from "react"
-import { TodoContext } from "../../Context/TodoContext"
-
-function CreateTodoButton() {
-
-  const { setOpenModal } = useContext(TodoContext)
+function CreateTodoButton({ setOpenModal }) {
 
   return (
     <button

@@ -9,6 +9,7 @@ import { TodosLoading } from '../Components/TodosLoading/TodosLoading'
 import { TodoSearchLoading } from '../Components/TodosLoading/TodoSearchLoading'
 import { Modal } from '../Components/Modal/Modal'
 import { TodoContext } from '../Context/TodoContext'
+import TodoForm from '../Components/TodoForm/TodoForm'
 
 function AppUI () {
 
@@ -58,7 +59,7 @@ function AppUI () {
 
             <div className='create-btn-container'>
                 {(!loading && searchedTodos == 0) && <h2>¡Crea tu primer tarea!</h2>}
-                {loading ? '' : <CreateTodoButton />}
+                {loading ? '' : <CreateTodoButton setOpenModal={setOpenModal}/>}
             </div>
 
             <div className='card-container'>
@@ -88,7 +89,9 @@ function AppUI () {
       </div>
       
       {openModal && (
-        <Modal>Funcionalidad de crear TODOs</Modal>
+        <Modal>
+          <TodoForm setOpenModal={setOpenModal}/>
+        </Modal>
       )}                                              
 
     </>
